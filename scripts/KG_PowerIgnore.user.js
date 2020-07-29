@@ -418,7 +418,7 @@ function main() {
 		{
 			//sooo, we are either in general chat or in game chat...
 			//well, nothing to do except this shit:
-			//got this piece of code from original IgnoreList.user.js script (by Fenex & Co) and slighly rewrited it, so don't blame me too much
+			//got this piece of code from original IgnoreList.user.js script (by Fenex & Co) and rewrited it heavily, so don't blame me too much!
 			setInterval(function(params, ignored_ids, ignored_logins) {
 				if (localStorage["KG_PowerIgnore_process_chat"] == false) return;
 
@@ -457,7 +457,7 @@ function main() {
 					//apply ignore, if needed
 					if (needToIgnore)
 					{
-						messages[i].className = 'ignore';
+						messages[i].classList.add('ignore');
 
 						switch (params.chat.ignoreMode)
 						{
