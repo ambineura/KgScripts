@@ -31,9 +31,9 @@ function main() {
 	function getDefaultParams()
 	{
 		return {
-			  ver: '1.12', //version of params (preferences)
+			  ver: '1.15', //version of params (preferences)
 			forum: {ignoreMode: 'remove', blur: '5px'}, 
-			 chat: {ignoreMode: 'blur', blur: '2px', updateInterval: 10},
+			 chat: {ignoreMode: 'blur', blur: '2px', updateInterval: 10, ignoreAddressedMsg: false;},
 			 race: {ignoreMode: 'remove', blur: '5px', updateInterval: 500, enableSound: false}	//added in version 1.01 
 		}
 	}
@@ -66,6 +66,10 @@ function main() {
 					delete params.chat.enabled;
 					params.chat.updateInterval = newParams.chat.updateInterval;
 					params.race = newParams.race;
+//					break;	<- !!! that's right !!!
+
+				case '1.12':
+					params.chat.ignoreAddressedMsg = newParams.chat.ignoreAddressedMsg;
 					break;
 			}
 
@@ -434,19 +438,20 @@ function main() {
 						var sm = messages[i].getElementsByClassName('system-message');
 						if(sm.length) {
 							var login = sm[0].innerHTML.match(/^([^ ]+)/);
-							if(login)
-								login = login[0];
-							else
-								login = '';
-								
+							login = (login)? login[0] : '';
 							needToIgnore = ~ignored_logins.indexOf(login);
 						}
 					}
 
-					// before this step we checked only if message author is in ignore list...
-					if (!needToIgnore && localStorage["KG_PowerIgnore_process_additional"] == true)
+					// so, before this step we checked only if message's author is in ignore list...
+					if (!needToIgnore && params.chat.ignoreAddressedMsg)
 					{
-						//let's check if another's message is addressed to ignored person:
+						//let's check if somebody's message is addressed to ignored person:
+						var matches = messages[i].innerText.match(/\>(([a-zа-яё0-9\_\-]+, ?){1})/i)
+						if (matches)
+						{
+							needToIgnore = ~ignored_logins.indexOf(matches[3]);
+						}
 					}
 					
 					//perform cleanup if needed:
