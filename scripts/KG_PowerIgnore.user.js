@@ -7,7 +7,7 @@
 // @include        http*://klavogonki.ru/forum*
 // @include        http*://klavogonki.ru/u*
 // @author         un4given
-// @version        1.1.4
+// @version        1.1.5
 // @description    Игнор-лист (в чате, на форуме и в заездах), привязанный к штатному игнору на странице настроек профиля
 // ==/UserScript==
 
@@ -441,6 +441,12 @@ function main() {
 								
 							needToIgnore = ~ignored_logins.indexOf(login);
 						}
+					}
+
+					// before this step we checked only if message author is in ignore list...
+					if (!needToIgnore && localStorage["KG_PowerIgnore_process_additional"] == true)
+					{
+						//let's check if another's message is addressed to ignored person:
 					}
 					
 					//perform cleanup if needed:
