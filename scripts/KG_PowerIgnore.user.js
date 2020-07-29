@@ -422,10 +422,10 @@ function main() {
 			setInterval(function(params, ignored_ids, ignored_logins) {
 				if (localStorage["KG_PowerIgnore_process_chat"] == false) return;
 
-				var messages = document.querySelectorAll('.chat .messages-content p');
+				//select only unchecked messages
+				var messages = document.querySelectorAll('.chat .messages-content p:not([checked="PowerIgnore"])');
 
 				for(var i=0; i<messages.length; i++) {
-					if(messages[i].hasAttribute('checked')) { continue; }
 
 					var needToIgnore = false;
 
@@ -454,31 +454,31 @@ function main() {
 						}
 					}
 					
-					//perform cleanup if needed:
+					//apply ignore, if needed
 					if (needToIgnore)
 					{
+						messages[i].className = 'ignore';
+
 						switch (params.chat.ignoreMode)
 						{
 							case 'blur':
-								messages[i].style.filter = 'blur('+params.chat.blur+')';
-
-								//remove indication of personally addressed message
+								//remove indication of personally addressed message, if any
 								if (messages[i].children[0].style.backgroundColor)
 									messages[i].children[0].style.backgroundColor = "";
-								break;
-								
-							case 'remove':
-								messages[i].style.display = 'none';
 								break;
 						}
 					}
 					
+					//mark message as checked
 					messages[i].setAttribute('checked', 'PowerIgnore');
 				}
 			}, params.chat.updateInterval, params, ignored_ids, ignored_logins);
 
 			//also create additional css rules for removing\blurring ignored persons in chat userlist
 			var css = ignored_ids.map(function(id){return ('.userlist-content ins.user'+id)}).join(', ');
+
+			//...and add an .ignore class for messages in chat
+			css += ', .chat .messages p.ignore ';
 			switch (params.chat.ignoreMode)
 			{
 				case 'blur':
