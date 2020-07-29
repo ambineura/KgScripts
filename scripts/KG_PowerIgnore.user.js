@@ -447,7 +447,7 @@ function main() {
 					if (!needToIgnore && params.chat.ignoreAddressedMsg)
 					{
 						//let's check if somebody's message is addressed to ignored person:
-						var matches = messages[i].innerText.match(/\>(([a-zа-яё0-9\_\-]+, ?){1})/i)
+						var matches = messages[i].innerText.match(/\>((([a-zа-яё0-9\_\-]+), ?){1})/i)
 						if (matches)
 						{
 							needToIgnore = ~ignored_logins.indexOf(matches[3]);
