@@ -33,7 +33,7 @@ function main() {
 		return {
 			  ver: '1.15', //version of params (preferences)
 			forum: {ignoreMode: 'remove', blur: '5px'}, 
-			 chat: {ignoreMode: 'blur', blur: '2px', updateInterval: 10, ignoreAddressedMsg: false;},
+			 chat: {ignoreMode: 'blur', blur: '2px', updateInterval: 10, ignoreAddressedMsg: false},
 			 race: {ignoreMode: 'remove', blur: '5px', updateInterval: 500, enableSound: false}	//added in version 1.01 
 		}
 	}
